@@ -138,7 +138,7 @@ export class Service{
         }
     }
 
-    
+
     // method is used to get a preview URL for an uploaded file stored in Appwrite Storage, such as an image.
     getFilePreview(fieldId){
         return this.bucket.getFilePreview(
