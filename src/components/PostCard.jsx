@@ -2,9 +2,10 @@ import React from 'react'
 import appwriteService from '../appwrite/cofig'
 import { Link } from 'react-router-dom'
 
-const PostCard = ({$id, title, featuredImage}) => {
+const PostCard = ({$id, title, featuredImage}) => {     // component receives an object through props and extracts three properties
   return (
-    <Link to={`/post/${$id}`}>
+    // Navigate to the post
+    <Link to={`/post/${$id}`}>   
         <div className='w-full bg-gray-100 rounded-xl p-4'>
             <div className='w-full justify-center mb-4'>
               {/* appwriteService.getFilePreview(featuredImage) uses your Appwrite service to obtain a preview URL for the image file.*/}
