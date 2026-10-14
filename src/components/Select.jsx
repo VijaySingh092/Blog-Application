@@ -1,10 +1,12 @@
+// reusable dropdown menu
+
 import React, {useId} from 'react'
 
 const Select = ({options,
     label,
     className,
     ...props
-    },ref) => {
+    },ref) => {    // ref (reference) lets you directly access a DOM element or a value without triggering a re-render when the ref changes.
     const id = useId()
   return (
     <div className='w-full'>

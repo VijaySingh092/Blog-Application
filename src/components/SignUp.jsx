@@ -7,7 +7,7 @@ import {Button, Input, Logo} from "./index"
 import { useDispatch } from "react-redux"
 
 const SignUp = () => {
-    const navigate = useNavigate("")
+    const navigate = useNavigate()
     const [error, setError] = useState("")
     const dispatch = useDispatch()
     const {register, handleSubmit } = useForm()
@@ -17,8 +17,8 @@ const SignUp = () => {
         try{
           const userData =  await authService.createAccount(data)
           if(userData){
-          const userData=  await authService.getCurrentUser()
-          if(userData) dispatch(login(userData))
+              const userData=  await authService.getCurrentUser()
+              if(userData) dispatch(login(userData))
             navigate("/")
           }
         }catch(error){
@@ -34,7 +34,6 @@ const SignUp = () => {
             </span>
         </div>
         <h2 className="text-center text-2xl font-bold leading-tight">Sign up to create account</h2>
-        <p className="mt-2 text-2xl font-bold leading-tight">Sign up to create account</p>
         <p className="mt-2 text-center text-base text-black/60">
         Already have an account?&nbsp;
         <Link 
@@ -60,12 +59,11 @@ const SignUp = () => {
                                     {...register("email", {
                                         required:true,
                                         validate:{
-                                            matchPattern:(value)=>/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value) || "email address must be a valid address",
+                                            matchPattern:(value)=>/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) || "email address must be a valid address",
                                         }
                                     })}
                                     />
 
-                
                 <Input
                 label="Password"
                 type="password"

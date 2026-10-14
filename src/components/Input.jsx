@@ -1,13 +1,19 @@
-import React, {useId} from 'react'
+// The main purpose is to create one reusable input field that you can use for email, password, username, and other forms.
 
+import React, {useId} from 'react'
+// useId() = generates a unique ID for you without requiring you to write your own ID-generation logic or call any additional methods
+
+// forwardRef allows a parent component to access a DOM element inside a child component.
+// This section creates your reusable Input component.
 const Input = React.forwardRef( function Input({
-    label,
+    label,  // Receives the label text from the parent.
     type = "text",
     className="",
     ...props
+}, ref){  // forwardRef provides the parent's ref as the second argument to the inner function.
 
-}, ref){
-    const id = useId()
+    const id = useId() //Generate a unique ID
+
  return (
     <div className='w-full'>
         {label && <label 
@@ -17,9 +23,9 @@ const Input = React.forwardRef( function Input({
         </label>
         }
         <input 
-        type={text}
-        className={`px-3 py-2 rounded-lg bg-white text-black outline-none focus:bg-gray-50 duration-200 border border-gray-200 w-full${className}`}
-        ref={ref}
+        type={type}
+        className={`px-3 py-2 rounded-lg bg-white text-black outline-none focus:bg-gray-50 duration-200 border border-gray-200 w-full ${className}`}
+        ref={ref}  //This attaches the received ref to the real HTML input.
         {...props}
         id={id} />
     </div>
