@@ -92,7 +92,7 @@ export class Service{
 
 
     // retrieves multiple posts from appwrite database, with a default filter that returns only posts whose status is "active".
-    async getPost(queries =[Query.equal("status","active")]){
+    async getPosts(queries =[Query.equal("status","active")]){
         try{
             return await this.databases.listDocuments(
                 conf.appwriteDatabaseId,
