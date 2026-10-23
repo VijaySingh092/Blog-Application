@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react'
 import { useForm } from 'react-hook-form'
-import {Button, Input, Select} from '../index'
+import {Button, Input, Select, RTE} from '../index'
 import appwriteService from '../../appwrite/cofig'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
@@ -17,11 +17,11 @@ const PostForm = ({post}) => {
     })
 
     const navigate = useNavigate()
-    const userData = useSelector(state=>state.user.userData)
+    const userData = useSelector(state=>state.auth.userData)
 
     const submit = async (data)=>{
         if(post){
-          const file = data.images[0]? appwriteService.uploadFile(data.image[0]):null
+          const file = data.image[0]? await appwriteService.uploadFile(data.image[0]):null
 
           if(file){
             appwriteService.deleteFile(post.featuredImage)
@@ -57,8 +57,8 @@ const PostForm = ({post}) => {
             return value
             .trim()
             .toLowerCase()
-            .replace(/^[a-zA-Z\d\s]+/g,'-')
-            .replace(/\s/g,'-')
+            .replace(/[^a-z0-9\s-]/g, '')
+            .replace(/\s+/g, '-')
 
             return ''
         
@@ -67,8 +67,8 @@ const PostForm = ({post}) => {
      React.useEffect(()=>{
         const subscription = watch((value,{name})=>{
             if(name === 'title'){
-                setValue('slug',slugTransform(value.title,
-                    {shouldValidate:true}))
+                setValue('slug',slugTransform(value.title),
+                    {shouldValidate:true})
             }
         })
 

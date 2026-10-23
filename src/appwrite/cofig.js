@@ -24,18 +24,18 @@ export class Service{
     // create new post in appwrite database
     async createPost({title, slug, content, featuredImage, status, userId}){
         try{
-            return await this.databases.createDocument(
-                conf.appwriteDatabaseId,  // Identifies the database
-                conf.appwriteCollectionId,  // Identifies the collection where the post will be stored
-                slug, // Sets the document ID
-                {                // Contains the document's data
+            return await this.databases.createDocument({
+                databaseId: conf.appwriteDatabaseId,  // Identifies the database
+                collectionId: conf.appwriteCollectionId,  // Identifies the collection where the post will be stored
+                documentId:slug, // Sets the document ID
+               data: {                // Contains the document's data
                     title,
                     content,
                     featuredImage,
                     status,
                     userId
                 }
-            )
+            })
         } catch(error){
             console.log("Appwrite service :: createPost :: error",error)
         }
@@ -44,17 +44,17 @@ export class Service{
     // updates an existing post in your Appwrite database
     async updatePost(slug, {title, content, featuredImage, status }){
         try{
-            return await this.databases.updateDocument(
-                conf.appwriteDatabaseId,
-                conf.appwriteCollectionId,
-                slug,
-                {
+            return await this.databases.updateDocument({
+                databaseId:conf.appwriteDatabaseId,
+                collectionId:conf.appwriteCollectionId,
+                slug:slug,
+                data:{
                     title,
                     content,
                     featuredImage,
                     status
                 }
-            )
+            })
         }catch(error){
             console.log("Appwrite serive :: updatePost :: error",error)
         }
@@ -63,11 +63,11 @@ export class Service{
     // deletes the post from database 
     async deletePost(slug){
         try{
-            await this.databases.deleteDocument(
-                conf.appwriteDatabaseId,
-                conf.appwriteCollectionId,
-                slug
-            )
+            await this.databases.deleteDocument({
+                databaseId: conf.appwriteDatabaseId,
+                collectionId:conf.appwriteCollectionId,
+                slug:slug
+            })
             return true
         }catch(error){
             console.log("Appwrite service :: deletePost :: error ",error)
@@ -78,12 +78,11 @@ export class Service{
     // retrieves a single post from appwrite database
     async getPost(slug){
         try{
-            return await this.databases.getDocument(
-                conf.appwriteDatabaseId,
-                conf.appwriteCollectionId,
-                slug
-            
-            )
+            return await this.databases.getDocument({
+               databaseId: conf.appwriteDatabaseId,
+                collectionId:conf.appwriteCollectionId,
+                documentId:slug
+            })
         }catch(error){
             console.log("Appwrite serive :: getPost :: error", error)
             return false
@@ -94,11 +93,11 @@ export class Service{
     // retrieves multiple posts from appwrite database, with a default filter that returns only posts whose status is "active".
     async getPosts(queries =[Query.equal("status","active")]){
         try{
-            return await this.databases.listDocuments(
-                conf.appwriteDatabaseId,
-                conf.appwriteCollectionId,
-                queries,
-            )
+            return await this.databases.listDocuments({
+                 databaseId:conf.appwriteDatabaseId,
+                 collectionId:conf.appwriteCollectionId,
+                queries:queries,
+            })
         }catch(error){
             console.log("Appwrite serive :: getPost :: error",error)
             return false
@@ -112,11 +111,11 @@ export class Service{
     async uploadFile(file) {
         try{
             // Remember: createFile() uploads the file; it does not create a database document.
-            return await this.bucket.createFile(
-                conf.appwriteBucketId, // Identifies the storage bucket where the file will be uploaded
-                ID.unique(), // Generates a unique ID for the uploaded file
-                file  // The actual file being uploaded
-            )
+            return await this.bucket.createFile({
+                bucketId:conf.appwriteBucketId, // Identifies the storage bucket where the file will be uploaded
+                fileId:ID.unique(), // Generates a unique ID for the uploaded file
+                file:file  // The actual file being uploaded
+            })
 
         }catch(error){
             console.log("Appwrite serive :: upload file :: error", error)
@@ -127,10 +126,10 @@ export class Service{
     // deletes an already uploaded file from Appwrite Storage
     async deleteFile(fileId){  
         try{
-            await this.bucket.deleteFile(
-                conf.appwriteBucketId,  // Identifies the storage bucket containing the file
-                fileId
-            )
+            await this.bucket.deleteFile({
+                bucketId: conf.appwriteBucketId,  // Identifies the storage bucket containing the file
+                fileId:fileId
+            })
             return true   // to indicate that an operation succeeded.
         }catch(error){
             console.log("Appwrite serive :: delete file :: error", error)
@@ -141,10 +140,10 @@ export class Service{
 
     // method is used to get a preview URL for an uploaded file stored in Appwrite Storage, such as an image.
     getFilePreview(fieldId){
-        return this.bucket.getFilePreview(
-            conf.appwriteBucketId,
-            fieldId
-        )
+        return this.bucket.getFilePreview({
+            bucketId: conf.appwriteBucketId,
+            fileId: fieldId
+        })
     }
 }
 

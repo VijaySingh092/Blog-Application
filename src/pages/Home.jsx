@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect,useState } from 'react'
-import { Container, PostForm } from '../components'
+import { Container, PostCard } from '../components'
 import appwriteService from '../appwrite/cofig'
 
 const Home = () => {
@@ -35,7 +35,7 @@ const Home = () => {
                 <div className='flex flex-wrap'>
                     {posts.map((post)=>(
                         <div key={post.$id} className='p-2 w-1/4'>
-                            <PostForm {...post}/>
+                            <PostCard {...post}/>
                         </div>
                     ))}
                 </div>

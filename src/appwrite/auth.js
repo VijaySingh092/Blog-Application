@@ -59,7 +59,7 @@ export class AuthService{
 // logs a user into application using their email and password through Appwrite.
     async login({email, password}){
         try{
-        await this.account.createEmailSession(email, password) //createEmailSession() authenticates the user using their email and password and creates a session.
+        await this.account.createEmailPasswordSession({email, password}) //createEmailSession() authenticates the user using their email and password and creates a session.
         // A session represents the user's authenticated state after successful login. It allows Appwrite to recognize the user in subsequent requests.
     }catch(error){
         throw error
